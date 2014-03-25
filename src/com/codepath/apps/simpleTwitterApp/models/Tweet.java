@@ -4,10 +4,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tweet extends BaseModel {
-    private User user;
+public class Tweet extends BaseModel implements Serializable{
+	private User user;
+    private String text;
+    private String timestamp;
+    
+    public Tweet(){
+		super();
+	}
+	
+    public Tweet(User user, String text, String timestamp) {
+    	super();
+		this.user = user;
+		this.text = text;
+		this.timestamp = timestamp;
+	}
 
     public User getUser() {
         return user;

@@ -3,8 +3,20 @@ package com.codepath.apps.simpleTwitterApp.models;
 import org.json.JSONObject;
 
 public class User extends BaseModel {
-    public String getName() {
-        return getString("name");
+	private String name;
+	
+	public User() {
+		super();
+	}
+	
+    public User(String name) {
+		super();
+		this.name = name;
+	}
+
+	public String getName() {
+        this.name = getString("name");
+        return this.name;
     }
 
     public long getId() {

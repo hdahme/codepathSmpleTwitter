@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 
 import android.app.ActionBar;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.codepath.apps.simpleTwitterApp.models.Tweet;
-import com.codepath.apps.simpleTwitterApp.EndlessScrollListener;
-import com.codepath.apps.simpleTwitterApp.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends ActionBarActivity {
@@ -22,6 +21,9 @@ public class TimelineActivity extends ActionBarActivity {
 	private ListView lvTweets;
 	private TweetsAdapter adapter;
 	private ArrayList<Tweet> tweets;
+	
+	public static final int COMPOSE_REQUEST = 100;
+	public static final String COMPOSE_KEY = "compose";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +98,17 @@ public class TimelineActivity extends ActionBarActivity {
 	}
 	
 	public void onComposeClick(MenuItem mi) {
+		Intent i = new Intent(this, NewTweetActivity.class);
+		startActivityForResult(i, COMPOSE_REQUEST);
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  if (resultCode == RESULT_OK && requestCode == COMPOSE_REQUEST) {
+	     Tweet newTweet = (Tweet) data.getExtras().getSerializable(COMPOSE_KEY);
+	     Toast.makeText(this, newTweet.getBody(), Toast.LENGTH_SHORT).show();
+	  }
 	}
 
 }
