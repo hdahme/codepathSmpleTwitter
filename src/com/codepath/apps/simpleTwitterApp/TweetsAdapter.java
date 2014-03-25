@@ -36,11 +36,10 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
 		userNameView.setText(tweet.getUser().getName());
 		
 		TextView tweetView = (TextView) view.findViewById(R.id.tvTweet);
-		tweetView.setText(tweet.getBody());
+		tweetView.setText(tweet.getBody());	
 		
-		Log.d("profile photo", tweet.getUser().getProfileImageUrl());
-		
-		
+		TextView timestampView = (TextView) view.findViewById(R.id.tvTimestamp);
+		timestampView.setText(tweet.getTimestampShort());	
 		
 		return view;
 	}

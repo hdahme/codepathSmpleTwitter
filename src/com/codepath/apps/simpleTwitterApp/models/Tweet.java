@@ -28,6 +28,13 @@ public class Tweet extends BaseModel {
     public boolean isRetweeted() {
         return getBoolean("retweeted");
     }
+    
+    public String getTimestampShort() {
+    	String t = getString("created_at");
+    	int i = t.indexOf(':', 0);
+    	t = t.substring(0, t.indexOf(':', i+1));
+    	return t;
+    }
 
     public static Tweet fromJson(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
