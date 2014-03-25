@@ -1,15 +1,17 @@
 package com.codepath.apps.simpleTwitterApp;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.ListView;
+
+import com.codepath.apps.simpleTwitterApp.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends ActionBarActivity {
 
@@ -17,6 +19,21 @@ public class TimelineActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
+		
+		TwitterClientApp.getRestClient().getHomeTimeline(new JsonHttpResponseHandler() {
+
+			@Override
+			public void onSuccess(JSONArray jsonTweets) {
+				// TODO Auto-generated method stub
+				ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
+				ListView lvTweets = (ListView) findViewById(R.id.lvTweets);
+				TweetsAdapter adapter = new TweetsAdapter(getBaseContext(), tweets);
+				lvTweets.setAdapter(adapter);
+				
+				//Log.d("debug", tweets.toString());
+			}
+			
+		});
 	}
 
 	@Override
@@ -38,4 +55,5 @@ public class TimelineActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }
