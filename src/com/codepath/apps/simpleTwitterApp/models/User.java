@@ -1,10 +1,28 @@
 package com.codepath.apps.simpleTwitterApp.models;
 
+import java.io.Serializable;
+
 import org.json.JSONObject;
 
-public class User extends BaseModel {
-    public String getName() {
-        return getString("name");
+public class User extends BaseModel implements Serializable{
+	private String name;
+	private String id;
+	
+	public User() {
+		super();
+	}
+	
+    public User(String name, String id) {
+		super();
+		this.name = name;
+		this.id = id;
+	}
+
+	public String getName() {
+		if (this.name == null) {
+			this.name = getString("name");
+		}
+        return this.name;
     }
 
     public long getId() {
@@ -33,6 +51,10 @@ public class User extends BaseModel {
 
     public int getFriendsCount() {
         return getInt("friends_count");
+    }
+    
+    public String getIdStr() {
+    	return this.id;
     }
 
     public static User fromJson(JSONObject json) {

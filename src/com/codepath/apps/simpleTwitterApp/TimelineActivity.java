@@ -3,18 +3,20 @@ package com.codepath.apps.simpleTwitterApp;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.ActionBar;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.codepath.apps.simpleTwitterApp.models.Tweet;
-import com.codepath.apps.simpleTwitterApp.EndlessScrollListener;
-import com.codepath.apps.simpleTwitterApp.R;
+import com.codepath.apps.simpleTwitterApp.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends ActionBarActivity {
@@ -22,6 +24,12 @@ public class TimelineActivity extends ActionBarActivity {
 	private ListView lvTweets;
 	private TweetsAdapter adapter;
 	private ArrayList<Tweet> tweets;
+	private User authenticatedUser;
+	
+	public static final int COMPOSE_REQUEST = 100;
+	public static final String COMPOSE_KEY = "compose";
+	public static final String STATUS_KEY = "status";
+	public static final String TIMESTAMP_KEY = "created_at";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,21 @@ public class TimelineActivity extends ActionBarActivity {
 				moreTweets();
 			}
 		});
+		
+		if (authenticatedUser == null){
+			TwitterClientApp.getRestClient().getCurrentlyAuthenticatedUser(new JsonHttpResponseHandler() {
+
+				@Override
+				public void onSuccess(JSONObject jsonUser) {
+					try {
+						authenticatedUser = new User(jsonUser.getString("name"), jsonUser.getString("id_str"));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			});
+		}
 	}
 
 	@Override
@@ -96,7 +119,22 @@ public class TimelineActivity extends ActionBarActivity {
 	}
 	
 	public void onComposeClick(MenuItem mi) {
+		Intent i = new Intent(this, NewTweetActivity.class);
+		startActivityForResult(i, COMPOSE_REQUEST);
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  if (resultCode == RESULT_OK && requestCode == COMPOSE_REQUEST) {
+	     String newStatus = (String) data.getExtras().getSerializable(STATUS_KEY);
+	     String creationTimestamp = (String) data.getExtras().getSerializable(TIMESTAMP_KEY);
+	     Toast.makeText(this, "Posting tweet", Toast.LENGTH_SHORT).show();
+	     initTweets();
+	     
+	     // Since Twitter writes may be slow, artificially load the new tweet, 
+	     // if it hasn't been propogated to all servers yet
+	  }
 	}
 
 }
