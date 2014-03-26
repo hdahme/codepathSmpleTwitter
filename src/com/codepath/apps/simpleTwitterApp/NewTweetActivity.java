@@ -63,7 +63,7 @@ public class NewTweetActivity extends ActionBarActivity {
 					data.putExtra(TimelineActivity.STATUS_KEY, etBody.getText().toString());
 					data.putExtra(TimelineActivity.TIMESTAMP_KEY, jsonTweet.getString("created_at"));
 					setResult(RESULT_OK, data);
-					Toast.makeText(getBaseContext(), jsonTweet.getString("created_at"), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Posting Tweet", Toast.LENGTH_SHORT).show();
 					finish();
 				} catch (JSONException e) {
 					e.printStackTrace();
