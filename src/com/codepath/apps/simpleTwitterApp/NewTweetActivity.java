@@ -73,5 +73,9 @@ public class NewTweetActivity extends ActionBarActivity {
 			
 		}, status);
 	}
+	
+	public void onCancelClick(View view) {
+		finish();
+	}
 
 }

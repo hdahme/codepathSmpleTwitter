@@ -32,4 +32,14 @@
         android:onClick="onComposeClick"
         android:src="@drawable/ic_share" />
 
+    <ImageButton
+        android:id="@+id/ibCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etBody"
+        android:layout_centerVertical="true"
+        android:background="#00000000"
+        android:onClick="onCancelClick"
+        android:src="@drawable/ic_back_arrow" />
+
 </RelativeLayout>
