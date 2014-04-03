@@ -26,6 +26,12 @@ public class TweetsListFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
+		initTweets();
+		lvTweets.setOnScrollListener(new EndlessScrollListener(3) {
+			public void onLoadMore(int page, int totalItemsCount) {
+				moreTweets();
+			}
+		});
 		super.onActivityCreated(savedInstanceState);
 	}
 
