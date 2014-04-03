@@ -18,11 +18,14 @@ import android.widget.ListView;
 public class TweetsListFragment extends Fragment {
 	
 	protected TweetsAdapter adapter;
+	protected ArrayList<Tweet> tweets;
+	protected ListView lvTweets;
 
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
 		super.onActivityCreated(savedInstanceState);
 	}
 
