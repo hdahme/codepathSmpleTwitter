@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.codepath.apps.simpleTwitterApp.fragments.TweetsListFragment;
 import com.codepath.apps.simpleTwitterApp.models.Tweet;
 import com.codepath.apps.simpleTwitterApp.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -27,6 +28,7 @@ public class TimelineActivity extends ActionBarActivity {
 	private TweetsAdapter adapter;
 	private ArrayList<Tweet> tweets;
 	private User authenticatedUser;
+	private TweetsListFragment fragementTweets;
 	
 	public static final int COMPOSE_REQUEST = 100;
 	public static final String COMPOSE_KEY = "compose";
@@ -39,11 +41,12 @@ public class TimelineActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_timeline);
 		
 		lvTweets = (ListView) findViewById(R.id.lvTweets);
-		initTweets();
+		fragementTweets = (TweetsListFragment)getSupportFragmentManager().findFragmentById(R.id.fragementTweets);
+		fragementTweets.initTweets();
 		
 		lvTweets.setOnScrollListener(new EndlessScrollListener(3) {
 			public void onLoadMore(int page, int totalItemsCount) {
-				moreTweets();
+				fragementTweets.moreTweets();
 			}
 		});
 		
@@ -86,39 +89,6 @@ public class TimelineActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void initTweets(){
-		TwitterClientApp.getRestClient().getHomeTimeline(new JsonHttpResponseHandler() {
-
-			@Override
-			public void onSuccess(JSONArray jsonTweets) {
-				// TODO Auto-generated method stub
-				tweets = Tweet.fromJson(jsonTweets);
-				adapter = new TweetsAdapter(getBaseContext(), tweets);
-				lvTweets.setAdapter(adapter);
-
-			}
-			
-		});
-	}
-	
-	public void moreTweets() {
-		TwitterClientApp.getRestClient().getHomeTimeline(new JsonHttpResponseHandler() {
-
-			@Override
-			public void onSuccess(JSONArray jsonTweets) {
-				// TODO Auto-generated method stub
-				if (tweets.size() >= 25) {
-					return;
-				}
-				tweets.addAll(Tweet.fromJson(jsonTweets));
-				adapter = new TweetsAdapter(getBaseContext(), tweets);
-				lvTweets.setAdapter(adapter);
-			}
-			
-		});
-		
-	}
-	
 	public void onComposeClick(MenuItem mi) {
 		Intent i = new Intent(this, NewTweetActivity.class);
 		startActivityForResult(i, COMPOSE_REQUEST);
@@ -131,7 +101,7 @@ public class TimelineActivity extends ActionBarActivity {
 	     String newStatus = (String) data.getExtras().getSerializable(STATUS_KEY);
 	     String creationTimestamp = (String) data.getExtras().getSerializable(TIMESTAMP_KEY);
 	     Toast.makeText(this, "Posting tweet", Toast.LENGTH_SHORT).show();
-	     initTweets();
+	     fragementTweets.initTweets();
 	     
 	     // Since Twitter writes may be slow, artificially load the new tweet, 
 	     // if it hasn't been propagated to all servers yet
