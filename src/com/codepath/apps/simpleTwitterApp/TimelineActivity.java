@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -109,7 +110,6 @@ public class TimelineActivity extends ActionBarActivity {
 				if (tweets.size() >= 25) {
 					return;
 				}
-				System.out.print("HELLO");
 				tweets.addAll(Tweet.fromJson(jsonTweets));
 				adapter = new TweetsAdapter(getBaseContext(), tweets);
 				lvTweets.setAdapter(adapter);
@@ -134,7 +134,13 @@ public class TimelineActivity extends ActionBarActivity {
 	     initTweets();
 	     
 	     // Since Twitter writes may be slow, artificially load the new tweet, 
-	     // if it hasn't been propogated to all servers yet
+	     // if it hasn't been propagated to all servers yet
+	     if (!tweets.get(0).getBody().equals(newStatus) && 
+	    		 !tweets.get(0).getTimestampShort().equals(creationTimestamp)) {
+	    	 		tweets.add(0, new Tweet(authenticatedUser, newStatus, creationTimestamp));
+	    	 		// Commented out for now, getting IllegalMonitorStateException
+	    	 		//lvTweets.notify();
+	     }
 	  }
 	}
 
