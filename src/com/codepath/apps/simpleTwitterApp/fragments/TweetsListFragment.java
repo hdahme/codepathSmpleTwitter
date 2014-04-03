@@ -17,9 +17,8 @@ import android.widget.ListView;
 
 public class TweetsListFragment extends Fragment {
 	
-	private TweetsAdapter adapter;
-	private ArrayList<Tweet> tweets;
-	private ListView lvTweets;
+	protected TweetsAdapter adapter;
+
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -33,38 +32,12 @@ public class TweetsListFragment extends Fragment {
 		return inflater.inflate(R.layout.fragments_tweets_list, container, false);
 	}
 	
-	public void initTweets(){
-		TwitterClientApp.getRestClient().getHomeTimeline(new JsonHttpResponseHandler() {
-
-			@Override
-			public void onSuccess(JSONArray jsonTweets) {
-				// TODO Auto-generated method stub
-				tweets = Tweet.fromJson(jsonTweets);
-				adapter = new TweetsAdapter(getActivity(), tweets);
-				lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
-				lvTweets.setAdapter(adapter);
-			}
-		});
-	}
-	
-	public void moreTweets() {
-		TwitterClientApp.getRestClient().getHomeTimeline(new JsonHttpResponseHandler() {
-
-			@Override
-			public void onSuccess(JSONArray jsonTweets) {
-				// TODO Auto-generated method stub
-				if (tweets.size() >= 25) {
-					return;
-				}
-				tweets.addAll(Tweet.fromJson(jsonTweets));
-				adapter = new TweetsAdapter(getActivity(), tweets);
-				lvTweets.setAdapter(adapter);
-			}
-		});
-	}
-	
 	public TweetsAdapter getAdpater() {
 		return adapter;
 	}
+	
+	// To be overridden by inheriting classes 
+	public void initTweets(){}
+	public void moreTweets(){}
 
 }

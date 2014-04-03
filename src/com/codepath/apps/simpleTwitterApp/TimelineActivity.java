@@ -25,7 +25,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 public class TimelineActivity extends ActionBarActivity {
 	
 	private ListView lvTweets;
-	private TweetsAdapter adapter;
 	private ArrayList<Tweet> tweets;
 	private User authenticatedUser;
 	private TweetsListFragment fragementTweets;
@@ -61,7 +60,6 @@ public class TimelineActivity extends ActionBarActivity {
 						e.printStackTrace();
 					}
 				}
-				
 			});
 		}
 	}
