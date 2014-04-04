@@ -14,7 +14,6 @@ public class UserTimelineFragment extends TweetsListFragment {
 	private long uid;
 	
 	private static final String UID_KEY = "uid";
-	private static final String TAGLINE_KEY = "uid";
 	
 	public static UserTimelineFragment newInstance(long uid) {
 		UserTimelineFragment tlFragment = new UserTimelineFragment();

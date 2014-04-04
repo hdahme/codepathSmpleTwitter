@@ -6,6 +6,7 @@ import org.json.JSONArray;
 
 import com.codepath.apps.simpleTwitterApp.R;
 import com.codepath.apps.simpleTwitterApp.TweetsAdapter;
+import com.codepath.apps.simpleTwitterApp.TweetsClickListener;
 import com.codepath.apps.simpleTwitterApp.TwitterClientApp;
 import com.codepath.apps.simpleTwitterApp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -30,6 +31,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
 				tweets = Tweet.fromJson(jsonTweets);
 				adapter = new TweetsAdapter(getActivity(), tweets);
 				lvTweets.setAdapter(adapter);
+				lvTweets.setOnItemClickListener(new TweetsClickListener(tweets));
 			}
 		});
 	}
@@ -46,6 +48,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
 				tweets.addAll(Tweet.fromJson(jsonTweets));
 				adapter = new TweetsAdapter(getActivity(), tweets);
 				lvTweets.setAdapter(adapter);
+				lvTweets.setOnItemClickListener(new TweetsClickListener(tweets));
 			}
 		});
 	}
