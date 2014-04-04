@@ -32,11 +32,11 @@ public class TimelineActivity extends ActionBarActivity implements TabListener {
 	
 	private ArrayList<Tweet> tweets;
 	private User authenticatedUser;
-	private TweetsListFragment fragementTweets;
 	
 	public static final int COMPOSE_REQUEST = 100;
 	public static final String COMPOSE_KEY = "compose";
 	public static final String STATUS_KEY = "status";
+	public static final String USER_ID_KEY = "user";
 	public static final String TIMESTAMP_KEY = "created_at";
 
 	@Override
@@ -49,11 +49,7 @@ public class TimelineActivity extends ActionBarActivity implements TabListener {
 
 				@Override
 				public void onSuccess(JSONObject jsonUser) {
-					try {
-						authenticatedUser = new User(jsonUser.getString("name"), jsonUser.getString("id_str"));
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
+					authenticatedUser = User.fromJson(jsonUser);
 				}
 			});
 		}
@@ -99,7 +95,12 @@ public class TimelineActivity extends ActionBarActivity implements TabListener {
 	public void onComposeClick(MenuItem mi) {
 		Intent i = new Intent(this, NewTweetActivity.class);
 		startActivityForResult(i, COMPOSE_REQUEST);
-		
+	}
+	
+	public void onProfileClick(MenuItem mi) {
+		Intent i = new Intent(this, ProfileActivity.class);
+		i.putExtra(USER_ID_KEY, authenticatedUser.getId());
+		startActivity(i);
 	}
 	
 	@Override
@@ -108,7 +109,6 @@ public class TimelineActivity extends ActionBarActivity implements TabListener {
 	     String newStatus = (String) data.getExtras().getSerializable(STATUS_KEY);
 	     String creationTimestamp = (String) data.getExtras().getSerializable(TIMESTAMP_KEY);
 	     Toast.makeText(this, "Posting tweet", Toast.LENGTH_SHORT).show();
-	     //fragementTweets.initTweets();
 	     
 	     // Since Twitter writes may be slow, artificially load the new tweet, 
 	     // if it hasn't been propagated to all servers yet

@@ -6,13 +6,16 @@ import org.json.JSONObject;
 
 public class User extends BaseModel implements Serializable{
 	private String name;
-	private String id;
+	private Long id;
+	private String screenName;
+	private int numTweets;
+	private int numFollowers;
 	
 	public User() {
 		super();
 	}
 	
-    public User(String name, String id) {
+    public User(String name, Long id) {
 		super();
 		this.name = name;
 		this.id = id;
@@ -54,7 +57,7 @@ public class User extends BaseModel implements Serializable{
     }
     
     public String getIdStr() {
-    	return this.id;
+    	return this.id.toString();
     }
 
     public static User fromJson(JSONObject json) {
@@ -68,6 +71,13 @@ public class User extends BaseModel implements Serializable{
 
         return u;
     }
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return getString("screen_name");
+	}
+
 
 
 }
