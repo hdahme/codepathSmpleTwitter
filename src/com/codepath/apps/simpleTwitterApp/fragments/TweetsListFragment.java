@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.ListView;
 
 public class TweetsListFragment extends Fragment {
@@ -21,24 +22,18 @@ public class TweetsListFragment extends Fragment {
 	protected ArrayList<Tweet> tweets;
 	protected ListView lvTweets;
 
-
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragments_tweets_list, container, false);
+		lvTweets = (ListView) v.findViewById(R.id.lvTweets);
 		initTweets();
 		lvTweets.setOnScrollListener(new EndlessScrollListener(3) {
 			public void onLoadMore(int page, int totalItemsCount) {
 				moreTweets();
 			}
 		});
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragments_tweets_list, container, false);
+		return v;
 	}
 	
 	public TweetsAdapter getAdpater() {
