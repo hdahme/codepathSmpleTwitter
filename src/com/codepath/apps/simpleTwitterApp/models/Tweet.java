@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tweet extends BaseModel implements Serializable{
+public class Tweet implements Serializable{
 	private User user;
     private String text;
     private String timestamp;
@@ -24,27 +24,15 @@ public class Tweet extends BaseModel implements Serializable{
 	}
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public String getBody() {
-        return getString("text");
-    }
-
-    public long getId() {
-        return getLong("id");
-    }
-
-    public boolean isFavorited() {
-        return getBoolean("favorited");
-    }
-
-    public boolean isRetweeted() {
-        return getBoolean("retweeted");
+        return this.text;
     }
     
     public String getTimestampShort() {
-    	String t = getString("created_at");
+    	String t = this.timestamp;
     	int i = t.indexOf(':', 0);
     	t = t.substring(0, t.indexOf(':', i+1));
     	return t;
@@ -53,8 +41,9 @@ public class Tweet extends BaseModel implements Serializable{
     public static Tweet fromJson(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
         try {
-            tweet.jsonObject = jsonObject;
             tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+            tweet.text = jsonObject.getString("text");
+            tweet.timestamp = jsonObject.getString("created_at");
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

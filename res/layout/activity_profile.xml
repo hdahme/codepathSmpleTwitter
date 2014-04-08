@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Large Text"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_alignBaseline="@+id/tvNumFollowers"
             android:layout_alignBottom="@+id/tvNumFollowers"
             android:layout_centerHorizontal="true"
-            android:text="TextView" />
+            android:text="" />
 
         <FrameLayout
             android:id="@+id/frameTimeline"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvUserName"
             android:layout_toRightOf="@+id/ivUserTimelineProfile"
-            android:text="Small Text"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -65,7 +65,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/ivUserTimelineProfile"
             android:layout_marginTop="14dp"
-            android:text="TextView" />
+            android:text="" />
 
     </RelativeLayout>
 

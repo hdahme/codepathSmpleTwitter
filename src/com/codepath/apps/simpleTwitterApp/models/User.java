@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
-public class User extends BaseModel implements Serializable{
+public class User implements Serializable{
 	private String name;
 	private Long id;
 	private String screenName;
 	private int numTweets;
 	private int numFollowers;
+	private String tagline;
+	private int numFollowing;
+	private String profileImgUrl;
 	
 	public User() {
 		super();
@@ -22,42 +25,35 @@ public class User extends BaseModel implements Serializable{
 	}
 
 	public String getName() {
-		if (this.name == null) {
-			this.name = getString("name");
-		}
         return this.name;
     }
 
     public long getId() {
-        return getLong("id");
+        return this.id;
     }
 
     public String getScreenName() {
-        return getString("screen_name");
+        return this.screenName;
     }
     
     public String getDescription() {
-    	return getString("description");
-    }
-
-    public String getProfileBackgroundImageUrl() {
-        return getString("profile_background_image_url");
+    	return this.tagline;
     }
     
     public String getProfileImageUrl() {
-        return getString("profile_image_url");
+        return this.profileImgUrl;
     }
 
     public int getNumTweets() {
-        return getInt("statuses_count");
+        return this.numTweets;
     }
 
     public int getFollowersCount() {
-        return getInt("followers_count");
+        return this.numFollowers;
     }
 
     public int getFriendsCount() {
-        return getInt("friends_count");
+        return this.numFollowing;
     }
     
     public String getIdStr() {
@@ -68,7 +64,14 @@ public class User extends BaseModel implements Serializable{
         User u = new User();
 
         try {
-            u.jsonObject = json;
+            u.name = json.getString("name");
+            u.id = json.getLong("id");
+            u.numFollowers = json.getInt("followers_count");
+            u.numTweets = json.getInt("statuses_count");
+            u.screenName = json.getString("screen_name");
+            u.tagline = json.getString("description");
+            u.numFollowing = json.getInt("friends_count");
+            u.profileImgUrl = json.getString("profile_image_url");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +82,7 @@ public class User extends BaseModel implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return getString("screen_name");
+		return this.screenName;
 	}
 
 
